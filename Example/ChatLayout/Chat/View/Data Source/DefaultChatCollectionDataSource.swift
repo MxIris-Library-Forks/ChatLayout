@@ -186,7 +186,12 @@ final class DefaultChatCollectionDataSource: NSObject, ChatCollectionDataSource 
         } else {
             cell.customView.accessoryView.isHidden = true
         }
+        #if canImport(AppKit) && !targetEnvironment(macCatalyst)
+//        cell.layoutMargins = NSDirectionalEdgeInsets(top: 2, leading: 40, bottom: 2, trailing: 40)
+        #endif
+        #if canImport(UIKit)
         cell.contentView.layoutMargins = NSUIEdgeInsets(top: 2, left: 40, bottom: 2, right: 40)
+        #endif
         return cell
     }
 
@@ -197,7 +202,12 @@ final class DefaultChatCollectionDataSource: NSObject, ChatCollectionDataSource 
         cell.customView.textColor = .gray
         cell.customView.numberOfLines = 0
         cell.customView.font = .preferredFont(forTextStyle: .caption2)
+        #if canImport(AppKit) && !targetEnvironment(macCatalyst)
+//        cell.layoutMargins = NSDirectionalEdgeInsets(top: 2, leading: 0, bottom: 2, trailing: 0)
+        #endif
+        #if canImport(UIKit)
         cell.contentView.layoutMargins = NSUIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
+        #endif
         return cell
     }
 
@@ -344,8 +354,8 @@ extension DefaultChatCollectionDataSource: NSUICollectionViewDataSource {
 
 extension DefaultChatCollectionDataSource: ChatLayoutDelegate {
     public func shouldPresentHeader(_ chatLayout: CollectionViewChatLayout, at sectionIndex: Int) -> Bool {
-//        true
-        false
+        true
+//        false
     }
 
     public func shouldPresentFooter(_ chatLayout: CollectionViewChatLayout, at sectionIndex: Int) -> Bool {

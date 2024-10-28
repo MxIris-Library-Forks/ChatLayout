@@ -38,24 +38,6 @@ final class TextMessageView: NSView, ContainerCollectionViewCellDelegate {
 
     override var isFlipped: Bool { true }
 
-    // Uncomment this method to test the performance without calculating text cell size using autolayout
-    // For the better illustration set DefaultRandomDataProvider.enableRichContent/enableNewMessages
-    // to false
-//    func preferredLayoutAttributesFitting(_ layoutAttributes: ChatLayoutAttributes) -> ChatLayoutAttributes? {
-//        viewPortWidth = layoutAttributes.layoutFrame.width
-//        guard let text = controller?.text as NSString? else {
-//            return layoutAttributes
-//        }
-//        let maxWidth = viewPortWidth * Constants.maxWidth
-//        var rect = text.boundingRect(with: CGSize(width: maxWidth, height: CGFloat.greatestFiniteMagnitude),
-//            options: [.usesLineFragmentOrigin, .usesFontLeading],
-//            attributes: [NSAttributedString.Key.font: textView.font as Any], context: nil)
-//        rect = rect.insetBy(dx: 0, dy: -8)
-//        layoutAttributes.size = CGSize(width: layoutAttributes.layoutFrame.width, height: rect.height)
-//        setupSize()
-//        return layoutAttributes
-//    }
-
     func apply(_ layoutAttributes: ChatLayoutAttributes) {
         viewPortWidth = layoutAttributes.layoutFrame.width
         setupSize()
@@ -89,10 +71,10 @@ final class TextMessageView: NSView, ContainerCollectionViewCellDelegate {
         textView.font = .preferredFont(forTextStyle: .body)
         addSubview(textView)
         NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: customLayoutMarginsGuide.topAnchor),
-            textView.bottomAnchor.constraint(equalTo: customLayoutMarginsGuide.bottomAnchor),
-            textView.leadingAnchor.constraint(equalTo: customLayoutMarginsGuide.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: customLayoutMarginsGuide.trailingAnchor),
+            textView.topAnchor.constraint(equalTo: topAnchor),
+            textView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            textView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
         textViewWidthConstraint = textView.widthAnchor.constraint(lessThanOrEqualToConstant: viewPortWidth)
         textViewWidthConstraint?.isActive = true

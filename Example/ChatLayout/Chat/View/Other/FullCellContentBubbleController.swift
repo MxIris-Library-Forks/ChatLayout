@@ -39,7 +39,11 @@ final class FullCellContentBubbleController<CustomView: NSUIView>: BubbleControl
 
         NSUIView.performWithoutAnimation {
             bubbleView.backgroundColor = .clear
+#if canImport(UIKit)
+            
             bubbleView.customView.layoutMargins = .zero
+            
+#endif
         }
     }
 }

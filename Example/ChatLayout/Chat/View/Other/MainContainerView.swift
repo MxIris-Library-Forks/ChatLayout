@@ -92,10 +92,10 @@ final class MainContainerView<LeadingAccessory: StaticViewFactory, CustomView: N
         addSubview(containerView)
         #if canImport(AppKit) && !targetEnvironment(macCatalyst)
         NSLayoutConstraint.activate([
-            containerView.leadingAnchor.constraint(equalTo: customLayoutMarginsGuide.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: customLayoutMarginsGuide.trailingAnchor),
-            containerView.topAnchor.constraint(equalTo: customLayoutMarginsGuide.topAnchor),
-            containerView.bottomAnchor.constraint(equalTo: customLayoutMarginsGuide.bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            containerView.topAnchor.constraint(equalTo: topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
         #endif
 

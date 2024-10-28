@@ -62,10 +62,10 @@ public final class RoundedCornersContainerView<CustomView: NSUIView>: NSUIView {
         customView.translatesAutoresizingMaskIntoConstraints = false
         #if canImport(AppKit) && !targetEnvironment(macCatalyst)
         NSLayoutConstraint.activate([
-            customView.topAnchor.constraint(equalTo: customLayoutMarginsGuide.topAnchor),
-            customView.bottomAnchor.constraint(equalTo: customLayoutMarginsGuide.bottomAnchor),
-            customView.leadingAnchor.constraint(equalTo: customLayoutMarginsGuide.leadingAnchor),
-            customView.trailingAnchor.constraint(equalTo: customLayoutMarginsGuide.trailingAnchor),
+            customView.topAnchor.constraint(equalTo: topAnchor),
+            customView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            customView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            customView.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
         #endif
 

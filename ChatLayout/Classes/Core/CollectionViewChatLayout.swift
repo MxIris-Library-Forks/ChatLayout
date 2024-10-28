@@ -20,28 +20,28 @@ import AppKit
 import UIKit
 #endif
 
-/// A collection view layout designed to display items in a grid similar to `UITableView`, while aligning them to the
-/// leading or trailing edge of the `UICollectionView`. This layout facilitates chat-like behavior by maintaining
-/// a constant content offset from the bottom. Additionally, it is capable of handling autosizing cells and
-/// supplementary views.
-///
-/// ### Custom Properties:
-/// `CollectionViewChatLayout.delegate`
-///
-/// `CollectionViewChatLayout.settings`
-///
-/// `CollectionViewChatLayout.keepContentOffsetAtBottomOnBatchUpdates`
-///
-/// `CollectionViewChatLayout.processOnlyVisibleItemsOnAnimatedBatchUpdates`
-///
-/// `CollectionViewChatLayout.visibleBounds`
-///
-/// `CollectionViewChatLayout.layoutFrame`
-///
-/// ### Custom Methods:
-/// `CollectionViewChatLayout.getContentOffsetSnapshot(...)`
-///
-/// `CollectionViewChatLayout.restoreContentOffset(...)`
+// A collection view layout designed to display items in a grid similar to `UITableView`, while aligning them to the
+// leading or trailing edge of the `UICollectionView`. This layout facilitates chat-like behavior by maintaining
+// a constant content offset from the bottom. Additionally, it is capable of handling autosizing cells and
+// supplementary views.
+//
+// ### Custom Properties:
+// `CollectionViewChatLayout.delegate`
+//
+// `CollectionViewChatLayout.settings`
+//
+// `CollectionViewChatLayout.keepContentOffsetAtBottomOnBatchUpdates`
+//
+// `CollectionViewChatLayout.processOnlyVisibleItemsOnAnimatedBatchUpdates`
+//
+// `CollectionViewChatLayout.visibleBounds`
+//
+// `CollectionViewChatLayout.layoutFrame`
+//
+// ### Custom Methods:
+// `CollectionViewChatLayout.getContentOffsetSnapshot(...)`
+//
+// `CollectionViewChatLayout.restoreContentOffset(...)`
 
 open class CollectionViewChatLayout: NSUICollectionViewLayout {
     // MARK: Custom Properties
@@ -75,7 +75,7 @@ open class CollectionViewChatLayout: NSUICollectionViewLayout {
     public var keepContentAtBottomOfVisibleArea: Bool = false
 
     /// Sometimes `UIScrollView` can behave weirdly if there are too many corrections in it's `contentOffset` during the animation. Especially when content size of the `UIScrollView`
-    // is getting smaller first and then expands again as the newly appearing cells sizes are being calculated. That is why `CollectionViewChatLayout`
+    /// is getting smaller first and then expands again as the newly appearing cells sizes are being calculated. That is why `CollectionViewChatLayout`
     /// tries to process only the elements that are currently visible on the screen. But often it is not needed. This flag allows you to have fine control over this behaviour.
     /// It set to `true` by default to keep the compatibility with the older versions of the library.
     ///
@@ -215,9 +215,9 @@ open class CollectionViewChatLayout: NSUICollectionViewLayout {
 
     private var cachedCollectionViewInset: NSUIEdgeInsets?
 
-    // These properties are used to keep the layout attributes copies used for insert/delete
-    // animations up-to-date as items are self-sized. If we don't keep these copies up-to-date, then
-    // animations will start from the estimated height.
+    /// These properties are used to keep the layout attributes copies used for insert/delete
+    /// animations up-to-date as items are self-sized. If we don't keep these copies up-to-date, then
+    /// animations will start from the estimated height.
     private var attributesForPendingAnimations = [ItemKind: [ItemPath: ChatLayoutAttributes]]()
 
     private var invalidatedAttributes = [ItemKind: Set<ItemPath>]()
@@ -253,7 +253,7 @@ open class CollectionViewChatLayout: NSUICollectionViewLayout {
         return isUserInitiatedScrolling && !controller.isAnimatedBoundsChange
         #endif
     }
-    
+
 //    private let logger = Logger(subsystem: "com.JH.CollectionViewChatLayout", category: "CollectionViewChatLayout")
 
     // MARK: Constructors
@@ -371,7 +371,7 @@ open class CollectionViewChatLayout: NSUICollectionViewLayout {
         #if canImport(AppKit) && !targetEnvironment(macCatalyst)
         collectionView?.observeLiveScroll()
         #endif
-        
+
         guard let collectionView,
               !prepareActions.isEmpty else {
             return
@@ -528,8 +528,10 @@ open class CollectionViewChatLayout: NSUICollectionViewLayout {
     }
 
     /// Retrieves the layout attributes for the specified supplementary view.
-    open override func layoutAttributesForSupplementaryView(ofKind elementKind: String,
-                                                            at indexPath: IndexPath) -> NSUICollectionViewLayoutAttributes? {
+    open override func layoutAttributesForSupplementaryView(
+        ofKind elementKind: String,
+        at indexPath: IndexPath
+    ) -> NSUICollectionViewLayoutAttributes? {
         guard !dontReturnAttributes else {
             return nil
         }
@@ -577,8 +579,10 @@ open class CollectionViewChatLayout: NSUICollectionViewLayout {
     // MARK: Context Invalidation
 
     /// Asks the layout object if changes to a self-sizing cell require a layout update.
-    open override func shouldInvalidateLayout(forPreferredLayoutAttributes preferredAttributes: NSUICollectionViewLayoutAttributes,
-                                              withOriginalAttributes originalAttributes: NSUICollectionViewLayoutAttributes) -> Bool {
+    open override func shouldInvalidateLayout(
+        forPreferredLayoutAttributes preferredAttributes: NSUICollectionViewLayoutAttributes,
+        withOriginalAttributes originalAttributes: NSUICollectionViewLayoutAttributes
+    ) -> Bool {
         guard let preferredAttributesItemPath = preferredAttributes.platformIndexPath?.itemPath,
               let preferredMessageAttributes = preferredAttributes as? ChatLayoutAttributes,
               let item = controller.item(for: preferredAttributesItemPath, kind: preferredMessageAttributes.kind, at: state) else {
@@ -594,8 +598,10 @@ open class CollectionViewChatLayout: NSUICollectionViewLayout {
     }
 
     /// Retrieves a context object that identifies the portions of the layout that should change in response to dynamic cell changes.
-    open override func invalidationContext(forPreferredLayoutAttributes preferredAttributes: NSUICollectionViewLayoutAttributes,
-                                           withOriginalAttributes originalAttributes: NSUICollectionViewLayoutAttributes) -> NSUICollectionViewLayoutInvalidationContext {
+    open override func invalidationContext(
+        forPreferredLayoutAttributes preferredAttributes: NSUICollectionViewLayoutAttributes,
+        withOriginalAttributes originalAttributes: NSUICollectionViewLayoutAttributes
+    ) -> NSUICollectionViewLayoutInvalidationContext {
         guard let preferredMessageAttributes = preferredAttributes as? ChatLayoutAttributes,
               let preferredAttributesIndexPath = preferredMessageAttributes.platformIndexPath,
               controller.item(for: preferredAttributesIndexPath.itemPath, kind: .cell, at: state) != nil
@@ -860,12 +866,23 @@ open class CollectionViewChatLayout: NSUICollectionViewLayout {
                       let initialIndexPath = controller.itemPath(by: itemIdentifier, kind: .cell, at: .beforeUpdate) {
                 attributes = controller.itemAttributes(for: initialIndexPath, kind: .cell, at: .beforeUpdate)?.typedCopy() ?? ChatLayoutAttributes(kind: .cell, indexPath: itemIndexPath)
                 attributes?.indexPath = itemIndexPath
+                #if canImport(AppKit) && !targetEnvironment(macCatalyst)
+
+//                if controller.reloadedIndexes.contains(itemIndexPath) || controller.reconfiguredIndexes.contains(itemIndexPath) || controller.reloadedSectionsIndexes.contains(itemPath.section) {
+//                    // It is needed to position the new cell in the middle of the old cell on ios 12
+//                    attributesForPendingAnimations[.cell]?[itemPath] = attributes
+//                }
+
+                #endif
+
+                #if canImport(UIKit)
                 if #unavailable(iOS 13.0) {
                     if controller.reloadedIndexes.contains(itemIndexPath) || controller.reconfiguredIndexes.contains(itemIndexPath) || controller.reloadedSectionsIndexes.contains(itemPath.section) {
                         // It is needed to position the new cell in the middle of the old cell on ios 12
                         attributesForPendingAnimations[.cell]?[itemPath] = attributes
                     }
                 }
+                #endif
             } else {
                 attributes = controller.itemAttributes(for: itemPath, kind: .cell, at: .beforeUpdate)
             }
@@ -930,8 +947,10 @@ open class CollectionViewChatLayout: NSUICollectionViewLayout {
     // MARK: - Supplementary View Appearance Animation
 
     /// Retrieves the starting layout information for a supplementary view being inserted into the collection view.
-    open override func initialLayoutAttributesForAppearingSupplementaryElement(ofKind elementKind: String,
-                                                                               at elementIndexPath: IndexPath) -> NSUICollectionViewLayoutAttributes? {
+    open override func initialLayoutAttributesForAppearingSupplementaryElement(
+        ofKind elementKind: String,
+        at elementIndexPath: IndexPath
+    ) -> NSUICollectionViewLayoutAttributes? {
         var attributes: ChatLayoutAttributes?
 
         let kind = ItemKind(elementKind)
@@ -953,12 +972,21 @@ open class CollectionViewChatLayout: NSUICollectionViewLayout {
                 attributes = controller.itemAttributes(for: initialIndexPath, kind: kind, at: .beforeUpdate)?.typedCopy() ?? ChatLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: elementIndexPath)
                 attributes?.indexPath = elementIndexPath
 
+                #if canImport(AppKit) && !targetEnvironment(macCatalyst)
+//                if controller.reloadedSectionsIndexes.contains(elementPath.section) {
+//                    // It is needed to position the new cell in the middle of the old cell on ios 12
+//                    attributesForPendingAnimations[kind]?[elementPath] = attributes
+//                }
+                #endif
+
+                #if canImport(UIKit)
                 if #unavailable(iOS 13.0) {
                     if controller.reloadedSectionsIndexes.contains(elementPath.section) {
                         // It is needed to position the new cell in the middle of the old cell on ios 12
                         attributesForPendingAnimations[kind]?[elementPath] = attributes
                     }
                 }
+                #endif
             } else {
                 attributes = controller.itemAttributes(for: elementPath, kind: kind, at: .beforeUpdate)
             }
@@ -970,8 +998,10 @@ open class CollectionViewChatLayout: NSUICollectionViewLayout {
     }
 
     /// Retrieves the final layout information for a supplementary view that is about to be removed from the collection view.
-    open override func finalLayoutAttributesForDisappearingSupplementaryElement(ofKind elementKind: String,
-                                                                                at elementIndexPath: IndexPath) -> NSUICollectionViewLayoutAttributes? {
+    open override func finalLayoutAttributesForDisappearingSupplementaryElement(
+        ofKind elementKind: String,
+        at elementIndexPath: IndexPath
+    ) -> NSUICollectionViewLayoutAttributes? {
         var attributes: ChatLayoutAttributes?
 
         let kind = ItemKind(elementKind)

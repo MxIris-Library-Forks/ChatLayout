@@ -156,10 +156,10 @@ public final class CellLayoutContainerView<LeadingAccessory: StaticViewFactory, 
 
         #if canImport(AppKit) && !targetEnvironment(macCatalyst)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: customLayoutMarginsGuide.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: customLayoutMarginsGuide.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: customLayoutMarginsGuide.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: customLayoutMarginsGuide.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
         #endif
 

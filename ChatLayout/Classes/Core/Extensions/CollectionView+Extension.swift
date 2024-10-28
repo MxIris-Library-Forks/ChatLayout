@@ -7,7 +7,7 @@ extension NSCollectionView {
     var contentOffset: CGPoint {
         set {
             enclosingScrollView?.contentView.scroll(to: newValue)
-//            animator().scroll(newValue)
+            enclosingScrollView.map { enclosingScrollView?.reflectScrolledClipView($0.contentView) }
         }
         get {
             enclosingScrollView?.contentView.bounds.origin ?? visibleRect.origin

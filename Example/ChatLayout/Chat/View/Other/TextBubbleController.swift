@@ -44,8 +44,10 @@ final class TextBubbleController<CustomView: NSUIView>: BubbleController {
         }
         NSUIView.performWithoutAnimation {
             let marginOffset: CGFloat = type.isIncoming ? -Constants.tailSize : Constants.tailSize
+            #if canImport(UIKit)
             let edgeInsets = NSUIEdgeInsets(top: 8, left: 16 - marginOffset, bottom: 8, right: 16 + marginOffset)
             bubbleView.layoutMargins = edgeInsets
+            #endif
 
             #if canImport(AppKit) && !targetEnvironment(macCatalyst)
             bubbleView.backgroundColor = type.isIncoming ? .windowBackgroundColor : .systemBlue

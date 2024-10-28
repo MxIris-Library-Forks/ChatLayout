@@ -51,12 +51,23 @@ final class EditingAccessoryView: NSUIView, StaticViewFactory {
         addSubview(button)
 
         button.translatesAutoresizingMaskIntoConstraints = false
+#if canImport(AppKit) && !targetEnvironment(macCatalyst)
+        NSLayoutConstraint.activate([
+            button.leadingAnchor.constraint(equalTo: leadingAnchor),
+            button.trailingAnchor.constraint(equalTo: trailingAnchor),
+            button.topAnchor.constraint(equalTo: topAnchor),
+            button.bottomAnchor.constraint(equalTo: bottomAnchor),
+        ])
+#endif
+        
+#if canImport(UIKit)
         NSLayoutConstraint.activate([
             button.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
             button.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
             button.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             button.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
         ])
+#endif
 
         #if canImport(AppKit) && !targetEnvironment(macCatalyst)
         button.title = "Delete"
